@@ -38,7 +38,7 @@ jobs:
     - name: Install jq
       run: sudo apt-get update && sudo apt-get install -y jq
 
-  # Check the Quality Gate status.
+    # Check the Quality Gate status.
     - name: SonarQube Quality Gate check
       id: sonarqube-quality-gate-check
       uses: sonarsource/sonarqube-quality-gate-action@master
@@ -56,11 +56,11 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t adijaiswal/boardgame:latest .
+        docker build -t akash/boardgame:latest .
 
     - name: Trivy Image Scan
       run: |
-        trivy image --format table -o trivy-image-report.html adijaiswal/board:latest
+        trivy image --format table -o trivy-image-report.html akash/board:latest
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
@@ -70,8 +70,8 @@ jobs:
 
     - name: Push Docker Image
       run: |
-          docker push adijaiswal/boardgame:latest
-          
+          docker push akash/boardgame:latest
+
     - name: Kubectl Action
       uses: tale/kubectl-action@v1
       with:
@@ -79,5 +79,3 @@ jobs:
     - run: |
           kubectl apply -f deployment-service.yaml -n webapps
           kubectl get svc -n webapps
-
-    
